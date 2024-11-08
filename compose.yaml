@@ -1,0 +1,41 @@
+services:
+    database:
+        container_name: jee_database
+        image: mariadb:lts
+        environment:
+            - MYSQL_DATABASE=music
+            - MYSQL_ROOT_PASSWORD=password
+        ports:
+            - "3306:3306"
+        volumes:
+            - database_data:/var/lib/mysql
+
+    cloudbeaver:
+        container_name: beaver
+        image: dbeaver/cloudbeaver:24.2.2
+        ports:
+            - "8080:8978"
+        volumes:
+            - cloudbeaver-workspace:/opt/cloudbeaver/workspace
+
+    tomee:
+        build: 
+            context: app
+        ports:
+            - "80:8080"
+        container_name: tomee
+        volumes:
+            - ./logs/:/usr/local/tomee/logs/
+            - ./tomcat/tomcat-users.xml:/usr/local/tomee/conf/tomcat-users.xml
+            - ./tomcat/context.xml:/usr/local/tomee/webapps/manager/META-INF/context.xml
+            - ./tomcat/system.properties:/usr/local/tomee/conf/system.properties
+
+    build-container:
+        build:
+            context: app
+            target: build
+
+
+volumes:
+    database_data:
+    cloudbeaver-workspace:
