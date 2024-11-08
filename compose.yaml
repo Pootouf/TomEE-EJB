@@ -30,6 +30,11 @@ services:
             - ./tomcat/context.xml:/usr/local/tomee/webapps/manager/META-INF/context.xml
             - ./tomcat/system.properties:/usr/local/tomee/conf/system.properties
 
+    build-container:
+        build:
+            context: app
+            target: build
+
 
 volumes:
     database_data:

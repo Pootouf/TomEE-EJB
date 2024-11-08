@@ -4,14 +4,13 @@ WORKDIR /tmp
 
 COPY . .
 
-RUN sh script.sh
+RUN bash script.sh
 
 
 FROM tomee:10.0-jre17-Semeru-ubuntu-plus AS final
 
 #RUN mv /usr/local/tomee/webapps.dist/* /usr/local/tomee/webapps
 
-COPY --from=build /tmp/EJB/target/*.jar /usr/local/tomee/webapps
 
 EXPOSE 8080
 
